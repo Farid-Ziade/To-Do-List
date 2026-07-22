@@ -1,14 +1,10 @@
+import { project } from "./projectData.js";
 function projectBar() {
   let bar = document.createElement("div");
   bar.className = "project-div";
   let header = document.createElement("h1");
   header.innerHTML = "Todo";
 
-  let project = [
-    { name: "Default", todos: [] },
-    { name: "Work", todos: [] },
-    { name: "Personal", todos: [] },
-  ];
   bar.appendChild(header);
   let activeCircle = 0;
 
@@ -40,7 +36,7 @@ function projectBar() {
     return button;
   }
 
-  project.forEach((proj, index) => {
+  project.forEach((proj) => {
     bar.appendChild(createProjectButton(proj));
   });
 
@@ -55,7 +51,6 @@ function projectBar() {
     bar.insertBefore(createProjectButton(newProj), button);
   });
   bar.appendChild(button);
-
   return bar;
 }
 export { projectBar };
