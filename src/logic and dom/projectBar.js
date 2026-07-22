@@ -5,21 +5,22 @@ function projectBar() {
   header.innerHTML = "Todo";
 
   let project = [
-    { name: "Default", value: 0 },
-    { name: "Work", value: 0 },
-    { name: "Personal", value: 0 },
+    { name: "Default", todos: [] },
+    { name: "Work", todos: [] },
+    { name: "Personal", todos: [] },
   ];
   bar.appendChild(header);
   let activeCircle = 0;
-  project.forEach((btn, index) => {
+
+  function createProjectButton(proj) {
     let button = document.createElement("button");
     let buttonPara = document.createElement("p");
     let buttonSpan = document.createElement("span");
     let circle = document.createElement("span");
     circle.className = "circle";
     button.className = "button";
-    let nameText = document.createTextNode(btn.name);
-    let valueText = document.createTextNode(btn.value);
+    let nameText = document.createTextNode(proj.name);
+    let valueText = document.createTextNode(proj.todos.length);
     buttonPara.appendChild(circle);
     buttonPara.appendChild(nameText);
     buttonSpan.appendChild(valueText);
@@ -32,12 +33,28 @@ function projectBar() {
       circle.style.backgroundColor = "dodgerblue";
       activeCircle = circle;
     });
-    bar.appendChild(button);
-    if (index === 0) {
+    if (activeCircle === 0) {
       circle.style.backgroundColor = "dodgerblue";
       activeCircle = circle;
     }
+    return button;
+  }
+
+  project.forEach((proj, index) => {
+    bar.appendChild(createProjectButton(proj));
   });
+
+  let button = document.createElement("button");
+  button.innerHTML = `<p><span>+</span> New Project</p>`;
+  button.className = "button";
+  button.addEventListener("click", () => {
+    let name = prompt("Project name ?");
+    if (!name) return;
+    let newProj = { name, todos: [] };
+    project.push(newProj);
+    bar.insertBefore(createProjectButton(newProj), button);
+  });
+  bar.appendChild(button);
 
   return bar;
 }
