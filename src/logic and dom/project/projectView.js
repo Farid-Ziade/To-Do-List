@@ -1,9 +1,12 @@
 import { project } from "./projectData.js";
+import { card } from "../todo/todoView.js";
+let buttonClicked = "";
+let update = document.querySelector(".default");
 function projectBar() {
   let bar = document.createElement("div");
   bar.className = "project-div";
   let header = document.createElement("h1");
-  header.innerHTML = "Todo";
+  header.textContent = "Todo";
 
   bar.appendChild(header);
   let activeCircle = 0;
@@ -28,10 +31,15 @@ function projectBar() {
       }
       circle.style.backgroundColor = "dodgerblue";
       activeCircle = circle;
+      buttonClicked = nameText.textContent;
+
+      console.log(card(buttonClicked));
     });
     if (activeCircle === 0) {
       circle.style.backgroundColor = "dodgerblue";
       activeCircle = circle;
+      buttonClicked = nameText.textContent;
+      console.log(buttonClicked);
     }
     return button;
   }
@@ -53,4 +61,4 @@ function projectBar() {
   bar.appendChild(button);
   return bar;
 }
-export { projectBar };
+export { projectBar, buttonClicked };
