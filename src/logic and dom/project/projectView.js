@@ -1,5 +1,5 @@
 import { project } from "./projectData.js";
-import { card } from "../todo/todoView.js";
+import { card, updating } from "../todo/todoView.js";
 let buttonClicked = "";
 let update = document.querySelector(".default");
 function projectBar() {
@@ -32,14 +32,14 @@ function projectBar() {
       circle.style.backgroundColor = "dodgerblue";
       activeCircle = circle;
       buttonClicked = nameText.textContent;
-
-      console.log(card(buttonClicked));
+      if (card()) {
+        updating();
+      }
     });
     if (activeCircle === 0) {
       circle.style.backgroundColor = "dodgerblue";
       activeCircle = circle;
       buttonClicked = nameText.textContent;
-      console.log(buttonClicked);
     }
     return button;
   }
@@ -54,7 +54,14 @@ function projectBar() {
   button.addEventListener("click", () => {
     let name = prompt("Project name ?");
     if (!name) return;
-    let newProj = { name, todos: [] };
+    let newProj = {
+      name,
+      title: "",
+      description: "",
+      priority: "",
+      date: "",
+      todos: [],
+    };
     project.push(newProj);
     bar.insertBefore(createProjectButton(newProj), button);
   });
