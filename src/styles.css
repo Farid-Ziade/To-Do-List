@@ -3,25 +3,29 @@
   margin: 0;
   box-sizing: border-box;
 }
+body {
+  font-family: sans-serif;
+}
 .container {
   display: flex;
+  width: 100%;
 }
 .project-div {
   height: 100vh;
-  width: 25%;
+  width: 45%;
   display: flex;
   flex-direction: column;
   background-color: #f6f5f2;
-  padding: 1%;
+  padding: 2%;
   gap: 3%;
   border-left: 0px;
   border-top: 0px;
-  border-right: 1px;
+  border-right: 2px;
   border-bottom: 0px;
-  border-style: solid;
+  border-style: groove;
 }
 .project-div h1 {
-  font-size: x-large;
+  font-size: 15px;
 }
 .button {
   background-color: #f6f5f2;
@@ -47,4 +51,31 @@
   width: 8px;
   border-radius: 50%;
   background-color: gray;
+}
+
+.bar-div {
+  width: 100%;
+  padding: 2%;
+  background-color: #f9f8f6;
+}
+.title-container {
+  display: flex;
+  justify-content: space-between;
+}
+.default,
+.remaining {
+  font-size: 15px;
+}
+.add-button {
+  padding: 6px 12px; /* vertical | horizontal */
+  border: none;
+  border-radius: 8px;
+  background-color: #2063b1;
+  color: white;
+
+  cursor: pointer;
+  white-space: nowrap;
+}
+.add-button:hover {
+  background-color: #07519d;
 }
