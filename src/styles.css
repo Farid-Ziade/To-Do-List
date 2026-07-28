@@ -25,7 +25,7 @@ body {
   border-style: groove;
 }
 .project-div h1 {
-  font-size: 15px;
+  font-size: 20px;
 }
 .button {
   background-color: #f6f5f2;
@@ -62,9 +62,12 @@ body {
   display: flex;
   justify-content: space-between;
 }
-.default,
+.default {
+  font-size: 25px;
+}
 .remaining {
-  font-size: 15px;
+  color: grey;
+  font-size: 13px;
 }
 .add-button {
   padding: 6px 12px; /* vertical | horizontal */
@@ -78,4 +81,9 @@ body {
 }
 .add-button:hover {
   background-color: #07519d;
+}
+.todo-div {
+  width: 100%;
+  background-color: black;
+  color: white;
 }
