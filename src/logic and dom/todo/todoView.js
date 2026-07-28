@@ -13,21 +13,51 @@ function card() {
   button.className = "add-button";
   titleContainer.className = "title-container";
   remaining.className = "remaining";
-  remaining.textContent = `X remaining`;
   header.className = "default";
+  project.forEach((proj) => {
+    if (proj.name == buttonClicked) {
+      remaining.textContent = `${proj.todos.length} remaining`;
+    }
+  });
   header.textContent = buttonClicked;
   headerContainer.appendChild(header);
   headerContainer.appendChild(remaining);
   titleContainer.appendChild(headerContainer);
   titleContainer.appendChild(button);
   bar.appendChild(titleContainer);
+  let divContainer = document.createElement("div");
+  divContainer.className = "div-container";
+  bar.appendChild(divContainer);
 
   return bar;
 }
 function updating() {
+  let bar = document.querySelector(".bar-div");
+  let divContainer = document.querySelector(".div-container");
+  let remaining = document.querySelector(".remaining");
   let update = document.querySelector(".default");
+  let div = document.createElement("div");
+  div.className = "todo-div";
+
+  div.textContent = "hello world";
   if (update) {
     update.textContent = buttonClicked;
+    project.forEach((proj) => {
+      let todoDiv = document.querySelector(".todo-div");
+      if (proj.name == buttonClicked) {
+        remaining.textContent = `${proj.todos.length} remaining`;
+        console.log(proj.todos.length);
+        if (divContainer.hasChildNodes()) {
+          for (let i = 0; i < proj.todos.length; i++) {
+            bar.removeChild(div);
+          }
+        }
+        ////// bug here while creating and removing divs
+        for (let i = 0; i < proj.todos.length; i++) {
+          bar.appendChild(div);
+        }
+      }
+    });
   }
   console.log(project);
 }
