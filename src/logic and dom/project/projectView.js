@@ -1,6 +1,7 @@
 import { project } from "./projectData.js";
 import { card, updating } from "../todo/todoView.js";
 let buttonClicked = "";
+let buttonNumber = 0;
 let update = document.querySelector(".default");
 function projectBar() {
   let bar = document.createElement("div");
@@ -32,14 +33,14 @@ function projectBar() {
       circle.style.backgroundColor = "dodgerblue";
       activeCircle = circle;
       buttonClicked = nameText.textContent;
-      if (card()) {
-        updating();
-      }
+      buttonNumber = valueText.textContent;
+      updating();
     });
     if (activeCircle === 0) {
       circle.style.backgroundColor = "dodgerblue";
       activeCircle = circle;
       buttonClicked = nameText.textContent;
+      buttonNumber = valueText.textContent;
     }
     return button;
   }
@@ -68,4 +69,4 @@ function projectBar() {
   bar.appendChild(button);
   return bar;
 }
-export { projectBar, buttonClicked };
+export { projectBar, buttonClicked, buttonNumber };

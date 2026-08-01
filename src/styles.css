@@ -5,6 +5,7 @@
 }
 body {
   font-family: sans-serif;
+  font-size: medium;
 }
 .container {
   display: flex;
@@ -82,8 +83,18 @@ body {
 .add-button:hover {
   background-color: #07519d;
 }
+
+.div-container {
+  margin-top: 5%;
+}
+
 .todo-div {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  background-color: black;
-  color: white;
+  padding: 2%;
+  border-radius: 5%;
+  color: black;
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
 }
