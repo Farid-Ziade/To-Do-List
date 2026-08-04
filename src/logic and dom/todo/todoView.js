@@ -23,30 +23,32 @@ function card() {
   titleContainer.appendChild(headerContainer);
   titleContainer.appendChild(button);
   bar.appendChild(titleContainer);
+
+  ///////div container when first creating the card
+
   let divContainer = document.createElement("div");
   divContainer.className = "div-container";
   bar.appendChild(divContainer);
-  let todo = document.createElement("div");
+  let todoDiv = document.createElement("div");
   let todoP = document.createElement("p");
   todoP.className = "todo-p";
   let squareButton = document.createElement("button");
   squareButton.textContent = `Square`;
   let spanDate = document.createElement("span");
-  todo.className = "todo-div";
+  todoDiv.className = "todo-div";
   project.forEach((proj) => {
     if (proj.name == buttonClicked) {
       for (let i = 0; i < buttonNumber; i++) {
         todoP.textContent = proj.todos[i].title;
         spanDate.textContent = proj.todos[i].date;
-        todo.appendChild(squareButton);
-        todo.appendChild(todoP);
-        todo.appendChild(spanDate);
+        todoDiv.appendChild(squareButton);
+        todoDiv.appendChild(todoP);
+        todoDiv.appendChild(spanDate);
       }
-      divContainer.appendChild(todo);
+      divContainer.appendChild(todoDiv);
     }
   });
-  console.log(project);
-  console.log("updating");
+
   return bar;
 }
 
@@ -57,46 +59,39 @@ function updating() {
   let update = document.querySelector(".default");
 
   let todo = document.createElement("div");
+  let shadowDiv = document.createElement("div");
   let todoP = document.createElement("p");
   todoP.className = "todo-p";
   let squareButton = document.createElement("button");
   squareButton.textContent = `Square`;
   let spanDate = document.createElement("span");
   todo.className = "todo-div";
-  let divSelector = document.querySelector(".todo-div");
+  let todoSelector = document.querySelector(".todo-div");
   project.forEach((proj) => {
     if (proj.name == buttonClicked) {
+      //what happens if buttonNumber is 0 ?
       for (let i = 0; i < buttonNumber; i++) {
         todoP.textContent = proj.todos[i].title;
         spanDate.textContent = proj.todos[i].date;
         todo.appendChild(squareButton);
         todo.appendChild(todoP);
         todo.appendChild(spanDate);
-        divContainer.appendChild(todo);
       }
+      divContainer.appendChild(todo);
     }
   });
-  if (divContainer.hasChildNodes()) {
-    divContainer.removeChild(divSelector);
-  }
-  console.log(buttonClicked);
-  project.forEach((proj) => {
-    if (proj.name == buttonClicked) {
-      for (let i = 0; i < buttonNumber; i++) {
-        todo.textContent = proj.todos[i].title;
-      }
-    }
-  });
+
+  //bug here where it only works if you switch from a porject that has a todo to a project that doesnt have(it erases it) but if it doesnt have and you click on one that does have it gives an error
 
   update.textContent = buttonClicked;
-
-  let todoDiv = document.querySelector(".todo-div");
   remaining.textContent = `${buttonNumber} remaining`;
-  if (buttonNumber > 0) {
-    for (let i = 0; i < buttonNumber; i++) {
-      bar.appendChild(todo);
-    }
-    divContainer.appendChild(todo);
+  bar.appendChild(divContainer);
+
+  //I am here in the bug
+  console.log(divContainer.hasChildNodes());
+
+  if (divContainer.hasChildNodes()) {
+    divContainer.removeChild(todoSelector);
   }
 }
 export { card, updating };
