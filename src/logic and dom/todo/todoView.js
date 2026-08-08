@@ -23,29 +23,30 @@ function card() {
   headerContainer.appendChild(remaining);
   titleContainer.appendChild(headerContainer);
   titleContainer.appendChild(button);
-  // console.log(project);
   bar.appendChild(titleContainer);
   ///////div container when first creating the card
   let divContainer = document.createElement("div");
   divContainer.className = "div-container";
 
-  ////////bug here ///////////
+  /////bug here if I am in another project name it doesnt add the add todo because it is pushing
+
   project.forEach((proj) => {
     if (proj.name == buttonClicked) {
+      console.log(proj.name);
       button.addEventListener("click", () => {
+        console.log(project);
         let newTitle = prompt("Todo Title?");
         if (!newTitle) return;
-        proj.todos.push({ title: newTitle });
-        console.log(proj.todos.length);
+        proj.todos.push({
+          title: newTitle,
+          description: "",
+          priority: "",
+          date: "",
+        });
+        updating();
       });
-    }
-  });
-  ////////////////////////////
-  project.forEach((proj) => {
-    if (proj.name == buttonClicked) {
-      console.log(proj.todos.length);
 
-      for (let i = 0; i < buttonNumber; i++) {
+      for (let i = 0; i < proj.todos.length; i++) {
         let todoDiv = document.createElement("div");
         let todoP = document.createElement("p");
         todoP.className = "todo-p";
@@ -68,7 +69,7 @@ function card() {
 }
 
 function updating() {
-  console.log(project);
+  console.log("All good");
   document.querySelectorAll(".todo-div").forEach((el) => el.remove());
   document.querySelectorAll(".noTask").forEach((el) => el.remove());
   let bar = document.querySelector(".bar-div");
@@ -76,15 +77,20 @@ function updating() {
   let remaining = document.querySelector(".remaining");
   let update = document.querySelector(".default");
   let todoSelector = document.querySelector(".todo-div");
+  let todoRemaining = document.querySelector(".todo-remaining");
   project.forEach((proj) => {
     if (proj.name == buttonClicked) {
-      if (buttonNumber == 0) {
+      if (proj.todos.length == 0) {
+        remaining.textContent = `${proj.todos.length} remaining`;
+
         let noTask = document.createElement("p");
         noTask.className = `noTask`;
         noTask.textContent = `No task available, try adding one`;
         divContainer.appendChild(noTask);
       } else {
-        for (let i = 0; i < buttonNumber; i++) {
+        for (let i = 0; i < proj.todos.length; i++) {
+          remaining.textContent = `${proj.todos.length} remaining`;
+          todoRemaining.textContent = proj.todos.length;
           let todo = document.createElement("div");
           let todoP = document.createElement("p");
           todoP.className = "todo-p";
@@ -93,7 +99,11 @@ function updating() {
           let spanDate = document.createElement("span");
           todo.className = "todo-div";
           todoP.textContent = proj.todos[i].title;
-          spanDate.textContent = proj.todos[i].date;
+          if (proj.todos[i].date == "") {
+            spanDate.textContent = `No date`;
+          } else {
+            spanDate.textContent = proj.todos[i].date;
+          }
           todo.appendChild(squareButton);
           todo.appendChild(todoP);
           todo.appendChild(spanDate);
@@ -104,7 +114,6 @@ function updating() {
   });
 
   update.textContent = buttonClicked;
-  remaining.textContent = `${buttonNumber} remaining`;
   bar.appendChild(divContainer);
 }
 export { card, updating };

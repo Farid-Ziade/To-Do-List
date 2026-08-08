@@ -21,6 +21,7 @@ function projectBar() {
     button.className = "button";
     let nameText = document.createTextNode(proj.name);
     let valueText = document.createTextNode(proj.todos.length);
+    buttonSpan.className = "todo-remaining";
     buttonPara.appendChild(circle);
     buttonPara.appendChild(nameText);
     buttonSpan.appendChild(valueText);
@@ -57,7 +58,6 @@ function projectBar() {
     if (!name) return;
     let newProj = {
       name,
-
       todos: [],
     };
     project.push(newProj);

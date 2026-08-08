@@ -47,12 +47,10 @@ let project = [
   },
   {
     name: "Work",
-
     todos: [],
   },
   {
     name: "Personal",
-
     todos: [],
   },
 ];
