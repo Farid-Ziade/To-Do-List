@@ -57,10 +57,7 @@ function projectBar() {
     if (!name) return;
     let newProj = {
       name,
-      title: "",
-      description: "",
-      priority: "",
-      date: "",
+
       todos: [],
     };
     project.push(newProj);

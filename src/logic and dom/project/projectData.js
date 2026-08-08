@@ -37,22 +37,22 @@ let project = [
         priority: "High",
         date: ` ${month(today.getMonth())} ${today.getUTCDate()}`,
       },
+      {
+        title: "zabre",
+        description: "b",
+        priority: "High",
+        date: ` ${month(today.getMonth())} ${today.getUTCDate()}`,
+      },
     ],
   },
   {
     name: "Work",
-    title: "",
-    description: "",
-    priority: "",
-    date: "",
+
     todos: [],
   },
   {
     name: "Personal",
-    title: "",
-    description: "",
-    priority: "",
-    date: "",
+
     todos: [],
   },
 ];
