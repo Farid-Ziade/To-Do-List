@@ -32,8 +32,8 @@ function card() {
 
   project.forEach((proj) => {
     if (proj.name == buttonClicked) {
-      console.log(proj.name);
       button.addEventListener("click", () => {
+        console.log(proj.name);
         console.log(project);
         let newTitle = prompt("Todo Title?");
         if (!newTitle) return;
@@ -45,7 +45,7 @@ function card() {
         });
         updating();
       });
-
+      //////////// bug is above because the button is staying in the card section so it only sees the proj.name of default
       for (let i = 0; i < proj.todos.length; i++) {
         let todoDiv = document.createElement("div");
         let todoP = document.createElement("p");
@@ -78,11 +78,25 @@ function updating() {
   let update = document.querySelector(".default");
   let todoSelector = document.querySelector(".todo-div");
   let todoRemaining = document.querySelector(".todo-remaining");
+  let button = document.querySelector(".add-button");
   project.forEach((proj) => {
     if (proj.name == buttonClicked) {
+      // console.log(proj);
+      // console.log(proj.name);
       if (proj.todos.length == 0) {
         remaining.textContent = `${proj.todos.length} remaining`;
-
+        // button.addEventListener("click", () => {
+        //   console.log(proj.name);
+        //   console.log(project);
+        //   let newTitle = prompt("Todo Title?");
+        //   if (!newTitle) return;
+        //   proj.todos.push({
+        //     title: newTitle,
+        //     description: "",
+        //     priority: "",
+        //     date: "",
+        //   });
+        // });
         let noTask = document.createElement("p");
         noTask.className = `noTask`;
         noTask.textContent = `No task available, try adding one`;
