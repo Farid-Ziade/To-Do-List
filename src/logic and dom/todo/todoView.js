@@ -17,41 +17,27 @@ function card() {
   remaining.className = "remaining";
   header.className = "default";
   remaining.textContent = `${buttonNumber} remaining`;
-
   header.textContent = buttonClicked;
   headerContainer.appendChild(header);
   headerContainer.appendChild(remaining);
   titleContainer.appendChild(headerContainer);
   titleContainer.appendChild(button);
   bar.appendChild(titleContainer);
+
   ///////div container when first creating the card
+
   let divContainer = document.createElement("div");
   divContainer.className = "div-container";
 
-  /////bug here if I am in another project name it doesnt add the add todo because it is pushing
-
   project.forEach((proj) => {
     if (proj.name == buttonClicked) {
-      button.addEventListener("click", () => {
-        console.log(proj.name);
-        console.log(project);
-        let newTitle = prompt("Todo Title?");
-        if (!newTitle) return;
-        proj.todos.push({
-          title: newTitle,
-          description: "",
-          priority: "",
-          date: "",
-        });
-        updating();
-      });
-      //////////// bug is above because the button is staying in the card section so it only sees the proj.name of default
       for (let i = 0; i < proj.todos.length; i++) {
         let todoDiv = document.createElement("div");
         let todoP = document.createElement("p");
         todoP.className = "todo-p";
         let squareButton = document.createElement("button");
-        squareButton.textContent = `Square`;
+        squareButton.className = "square";
+
         let spanDate = document.createElement("span");
         todoDiv.className = "todo-div";
         todoP.textContent = proj.todos[i].title;
@@ -61,10 +47,20 @@ function card() {
         todoDiv.appendChild(spanDate);
         divContainer.appendChild(todoDiv);
       }
+      button.addEventListener("click", () => {
+        let newTitle = prompt("new Todo Title?");
+        if (!newTitle) return;
+        proj.todos.push({
+          title: newTitle,
+          description: "",
+          priority: "",
+          date: "",
+        });
+        updating();
+      });
     }
   });
   bar.appendChild(divContainer);
-
   return bar;
 }
 
@@ -72,31 +68,35 @@ function updating() {
   console.log("All good");
   document.querySelectorAll(".todo-div").forEach((el) => el.remove());
   document.querySelectorAll(".noTask").forEach((el) => el.remove());
+  document.querySelector(".add-button").remove();
   let bar = document.querySelector(".bar-div");
   let divContainer = document.querySelector(".div-container");
   let remaining = document.querySelector(".remaining");
   let update = document.querySelector(".default");
   let todoSelector = document.querySelector(".todo-div");
-  let todoRemaining = document.querySelector(".todo-remaining");
-  let button = document.querySelector(".add-button");
-  project.forEach((proj) => {
+  let todoRemaining = document.querySelectorAll(".todo-remaining");
+  let button = document.createElement("button");
+  let titleContainer = document.querySelector(".title-container");
+  button.textContent = `+ Add todo`;
+  button.className = "add-button";
+  titleContainer.appendChild(button);
+  update.textContent = buttonClicked;
+
+  project.forEach((proj, numbers) => {
     if (proj.name == buttonClicked) {
-      // console.log(proj);
-      // console.log(proj.name);
       if (proj.todos.length == 0) {
         remaining.textContent = `${proj.todos.length} remaining`;
-        // button.addEventListener("click", () => {
-        //   console.log(proj.name);
-        //   console.log(project);
-        //   let newTitle = prompt("Todo Title?");
-        //   if (!newTitle) return;
-        //   proj.todos.push({
-        //     title: newTitle,
-        //     description: "",
-        //     priority: "",
-        //     date: "",
-        //   });
-        // });
+        button.addEventListener("click", () => {
+          let newTitle = prompt("new Todo Title?");
+          if (!newTitle) return;
+          proj.todos.push({
+            title: newTitle,
+            description: "",
+            priority: "",
+            date: "",
+          });
+          updating();
+        });
         let noTask = document.createElement("p");
         noTask.className = `noTask`;
         noTask.textContent = `No task available, try adding one`;
@@ -104,15 +104,20 @@ function updating() {
       } else {
         for (let i = 0; i < proj.todos.length; i++) {
           remaining.textContent = `${proj.todos.length} remaining`;
-          todoRemaining.textContent = proj.todos.length;
+          todoRemaining.forEach((el, index) => {
+            if (numbers == index) {
+              el.textContent = `${proj.todos.length}`;
+            }
+          });
           let todo = document.createElement("div");
           let todoP = document.createElement("p");
           todoP.className = "todo-p";
           let squareButton = document.createElement("button");
-          squareButton.textContent = `Square`;
+          squareButton.className = "square";
           let spanDate = document.createElement("span");
           todo.className = "todo-div";
           todoP.textContent = proj.todos[i].title;
+
           if (proj.todos[i].date == "") {
             spanDate.textContent = `No date`;
           } else {
@@ -123,11 +128,21 @@ function updating() {
           todo.appendChild(spanDate);
           divContainer.appendChild(todo);
         }
+        button.addEventListener("click", () => {
+          let newTitle = prompt("Todo Title?");
+          if (!newTitle) return;
+          proj.todos.push({
+            title: newTitle,
+            description: "",
+            priority: "",
+            date: "",
+          });
+          updating();
+        });
       }
     }
   });
 
-  update.textContent = buttonClicked;
   bar.appendChild(divContainer);
 }
 export { card, updating };
