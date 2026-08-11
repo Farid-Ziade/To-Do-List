@@ -45,6 +45,7 @@ function card() {
         todoDiv.appendChild(squareButton);
         todoDiv.appendChild(todoP);
         todoDiv.appendChild(spanDate);
+        
         divContainer.appendChild(todoDiv);
       }
       button.addEventListener("click", () => {
@@ -61,11 +62,16 @@ function card() {
     }
   });
   bar.appendChild(divContainer);
+//// bug here where todiDivSelector is null but the divContainer is available and tododiv is inside of it need to follow the path of creation
+let todoDivSelector = document.querySelector(".todo-p");
+        console.log(todoDivSelector);
+
   return bar;
 }
 
 function updating() {
   console.log("All good");
+
   document.querySelectorAll(".todo-div").forEach((el) => el.remove());
   document.querySelectorAll(".noTask").forEach((el) => el.remove());
   document.querySelector(".add-button").remove();
@@ -145,4 +151,24 @@ function updating() {
 
   bar.appendChild(divContainer);
 }
+
+function extraCard() {
+  let barDiv = document.querySelector(".bar-div");
+  let divContainer = document.querySelector(".div-container");
+  let todoDiv = document.querySelector(".todo-div");
+  let div = document.createElement("div");
+  div.className = "card-div";
+  let title = document.createElement("input");
+  title.type = "text";
+  title.id = "titleid";
+  title.name = "title";
+  project.forEach((proj) => {
+    if (proj.name == buttonClicked) {
+      title.placeholder = proj.todos[0].title;
+    }
+    div.appendChild(title);
+    barDiv.appendChild(div);
+  });
+}
+
 export { card, updating };

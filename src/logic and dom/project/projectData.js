@@ -38,8 +38,8 @@ let project = [
         date: ` ${month(today.getMonth())} ${today.getUTCDate()}`,
       },
       {
-        title: "zabre",
-        description: "b",
+        title: "Go to basketball practice",
+        description: "Every Tuesday and Thursday",
         priority: "High",
         date: ` ${month(today.getMonth())} ${today.getUTCDate()}`,
       },
