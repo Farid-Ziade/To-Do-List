@@ -29,43 +29,28 @@ function card() {
   let divContainer = document.createElement("div");
   divContainer.className = "div-container";
 
-  project.forEach((proj) => {
-    if (proj.name == buttonClicked) {
-      for (let i = 0; i < proj.todos.length; i++) {
-        let todoDiv = document.createElement("div");
-        let todoP = document.createElement("p");
-        todoP.className = "todo-p";
-        let squareButton = document.createElement("button");
-        squareButton.className = "square";
-
-        let spanDate = document.createElement("span");
-        todoDiv.className = "todo-div";
-        todoP.textContent = proj.todos[i].title;
-        spanDate.textContent = proj.todos[i].date;
-        todoDiv.appendChild(squareButton);
-        todoDiv.appendChild(todoP);
-        todoDiv.appendChild(spanDate);
-        
-        divContainer.appendChild(todoDiv);
-      }
-      button.addEventListener("click", () => {
-        let newTitle = prompt("new Todo Title?");
-        if (!newTitle) return;
+  button.addEventListener("click", () => {
+    let newTitle = prompt("new Todo Title?");
+    if (!newTitle) return;
+    project.forEach((proj) => {
+      if (proj.name == buttonClicked) {
         proj.todos.push({
           title: newTitle,
           description: "",
           priority: "",
           date: "",
         });
-        updating();
-      });
-    }
+      }
+    });
+    updating();
   });
-  bar.appendChild(divContainer);
-//// bug here where todiDivSelector is null but the divContainer is available and tododiv is inside of it need to follow the path of creation
-let todoDivSelector = document.querySelector(".todo-p");
-        console.log(todoDivSelector);
 
+  bar.appendChild(divContainer);
+
+  // Note: todos are populated by calling updating() once `bar` has been
+  // appended to the document (updating() looks elements up via
+  // document.querySelector, so it needs to already be in the DOM).
+  // See index.js.
   return bar;
 }
 
@@ -79,7 +64,7 @@ function updating() {
   let divContainer = document.querySelector(".div-container");
   let remaining = document.querySelector(".remaining");
   let update = document.querySelector(".default");
-  let todoSelector = document.querySelector(".todo-div");
+
   let todoRemaining = document.querySelectorAll(".todo-remaining");
   let button = document.createElement("button");
   let titleContainer = document.querySelector(".title-container");
@@ -120,10 +105,9 @@ function updating() {
           todoP.className = "todo-p";
           let squareButton = document.createElement("button");
           squareButton.className = "square";
-          let spanDate = document.createElement("span");
+          let spanDate = document.createElement("p");
           todo.className = "todo-div";
           todoP.textContent = proj.todos[i].title;
-
           if (proj.todos[i].date == "") {
             spanDate.textContent = `No date`;
           } else {
@@ -148,26 +132,33 @@ function updating() {
       }
     }
   });
-
   bar.appendChild(divContainer);
+
+  let allTodo = document.querySelectorAll(".todo-div");
+  allTodo.forEach((el, index) => {
+    el.addEventListener("click", () => {
+      console.log(index);
+      extraCard(index);
+    });
+  });
 }
 
-function extraCard() {
+function extraCard(index) {
+  console.log("extra card");
   let barDiv = document.querySelector(".bar-div");
   let divContainer = document.querySelector(".div-container");
-  let todoDiv = document.querySelector(".todo-div");
+  let todoDiv = document.querySelectorAll(".todo-div");
   let div = document.createElement("div");
   div.className = "card-div";
   let title = document.createElement("input");
   title.type = "text";
   title.id = "titleid";
   title.name = "title";
-  project.forEach((proj) => {
-    if (proj.name == buttonClicked) {
-      title.placeholder = proj.todos[0].title;
+  todoDiv.forEach((item, number) => {
+    if (index == number) {
+      title.value = item.textContent;
+      console.log(item.textContent);
     }
-    div.appendChild(title);
-    barDiv.appendChild(div);
   });
 }
 
