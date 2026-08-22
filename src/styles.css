@@ -127,3 +127,16 @@ input {
   padding: 1em;
   border-radius: 1%;
 }
+.smallContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.todocircle {
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: green;
+}

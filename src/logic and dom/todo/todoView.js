@@ -106,13 +106,21 @@ function updating() {
           let todo = document.createElement("div");
           let todoP = document.createElement("p");
           todoP.className = "todo-p";
-          let squareButton = document.createElement("button");
+          let smallContainer = document.createElement("div");
+          smallContainer.className = "smallContainer";
+          let squareButton = document.createElement("input");
+          squareButton.type = "checkbox";
           squareButton.className = "square";
+          let circle = document.createElement("span");
+          circle.className = "todocircle";
+          smallContainer.appendChild(squareButton);
+          smallContainer.appendChild(circle);
           let spanDate = document.createElement("p");
           todo.className = "todo-div";
           todoP.textContent = proj.todos[i].title;
           spanDate.textContent = formatDate(proj.todos[i].date);
-          todo.appendChild(squareButton);
+
+          todo.appendChild(smallContainer);
           todo.appendChild(todoP);
           todo.appendChild(spanDate);
           divContainer.appendChild(todo);
@@ -151,6 +159,7 @@ function extraCard(index) {
   let todoP = document.querySelectorAll(".todo-p");
   let div = document.createElement("div");
   div.className = "card-div";
+  let circle = document.querySelector(".todocircle");
   let title = document.createElement("input");
   title.type = "text";
   title.id = "titleid";
@@ -180,7 +189,12 @@ function extraCard(index) {
     let option = document.createElement("option");
     option.htmlFor = "selectid";
     option.textContent = el.toUpperCase();
-    option.value = el.toUpperCase();
+    option.value = el.toLowerCase();
+    if (option.value == "low") {
+      circle.style.backgroundColor = "red";
+    }
+    ////bug here
+
     select.appendChild(option);
   });
 
