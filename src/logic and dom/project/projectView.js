@@ -1,8 +1,8 @@
 import { project } from "./projectData.js";
-import { card, updating } from "../todo/todoView.js";
+import { updating } from "../todo/todoView.js";
 let buttonClicked = "";
 let buttonNumber = 0;
-let update = document.querySelector(".default");
+
 function projectBar() {
   let bar = document.createElement("div");
   bar.className = "project-div";

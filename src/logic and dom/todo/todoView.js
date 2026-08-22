@@ -1,7 +1,14 @@
 import { project } from "../project/projectData.js";
-import { projectBar } from "../project/projectView";
 import { buttonClicked } from "../project/projectView";
 import { buttonNumber } from "../project/projectView";
+import { format, parseISO, isValid } from "date-fns";
+
+function formatDate(dateStr) {
+  if (!dateStr) return "No date";
+  const parsed = parseISO(dateStr);
+  return isValid(parsed) ? format(parsed, "MMM d, yyyy") : "No date";
+}
+
 function card() {
   //title of the card
   let bar = document.createElement("div");
@@ -47,24 +54,20 @@ function card() {
 
   bar.appendChild(divContainer);
 
-  // Note: todos are populated by calling updating() once `bar` has been
-  // appended to the document (updating() looks elements up via
-  // document.querySelector, so it needs to already be in the DOM).
-  // See index.js.
   return bar;
 }
 
 function updating() {
-  console.log("All good");
-
   document.querySelectorAll(".todo-div").forEach((el) => el.remove());
   document.querySelectorAll(".noTask").forEach((el) => el.remove());
+  document.querySelectorAll(".card-div").forEach((el) => {
+    el.remove();
+  });
   document.querySelector(".add-button").remove();
   let bar = document.querySelector(".bar-div");
   let divContainer = document.querySelector(".div-container");
   let remaining = document.querySelector(".remaining");
   let update = document.querySelector(".default");
-
   let todoRemaining = document.querySelectorAll(".todo-remaining");
   let button = document.createElement("button");
   let titleContainer = document.querySelector(".title-container");
@@ -108,11 +111,7 @@ function updating() {
           let spanDate = document.createElement("p");
           todo.className = "todo-div";
           todoP.textContent = proj.todos[i].title;
-          if (proj.todos[i].date == "") {
-            spanDate.textContent = `No date`;
-          } else {
-            spanDate.textContent = proj.todos[i].date;
-          }
+          spanDate.textContent = formatDate(proj.todos[i].date);
           todo.appendChild(squareButton);
           todo.appendChild(todoP);
           todo.appendChild(spanDate);
@@ -137,27 +136,105 @@ function updating() {
   let allTodo = document.querySelectorAll(".todo-div");
   allTodo.forEach((el, index) => {
     el.addEventListener("click", () => {
-      console.log(index);
-      extraCard(index);
+      let next = el.nextElementSibling;
+      if (next && next.classList.contains("card-div")) {
+        next.remove();
+      } else {
+        extraCard(index);
+      }
     });
   });
 }
 
 function extraCard(index) {
-  console.log("extra card");
-  let barDiv = document.querySelector(".bar-div");
-  let divContainer = document.querySelector(".div-container");
   let todoDiv = document.querySelectorAll(".todo-div");
+  let todoP = document.querySelectorAll(".todo-p");
   let div = document.createElement("div");
   div.className = "card-div";
   let title = document.createElement("input");
   title.type = "text";
   title.id = "titleid";
   title.name = "title";
-  todoDiv.forEach((item, number) => {
+  title.maxLength = "50";
+  let label = document.createElement("label");
+  label.htmlFor = "titleid";
+  label.textContent = "Title";
+  label.className = "todo-title-label";
+  let description = document.createElement("input");
+  description.type = "text";
+
+  let dateInput = document.createElement("input");
+  dateInput.type = "date";
+  dateInput.id = "dateid";
+  dateInput.name = "date";
+  let dateLabel = document.createElement("label");
+  dateLabel.htmlFor = "dateid";
+  dateLabel.textContent = "Due date";
+  dateLabel.className = "todo-date-label";
+
+  let select = document.createElement("select");
+  select.name = "select";
+  select.id = "selectid";
+  let arrayOption = ["low", "medium", "high"];
+  arrayOption.forEach((el) => {
+    let option = document.createElement("option");
+    option.htmlFor = "selectid";
+    option.textContent = el.toUpperCase();
+    option.value = el.toUpperCase();
+    select.appendChild(option);
+  });
+
+  let selectLabel = document.createElement("label");
+  selectLabel.htmlFor = "selectid";
+  selectLabel.textContent = "Priority";
+  selectLabel.className = "todo-priority-label";
+
+  let currentTodo;
+  todoP.forEach((item, number) => {
     if (index == number) {
       title.value = item.textContent;
-      console.log(item.textContent);
+      currentTodo = item;
+    }
+  });
+  title.addEventListener("input", () => {
+    currentTodo.textContent = title.value;
+    project.forEach((proj) => {
+      if (proj.name == buttonClicked) {
+        proj.todos[index].title = currentTodo.textContent;
+      }
+    });
+  });
+
+  project.forEach((proj) => {
+    if (proj.name == buttonClicked) {
+      dateInput.value = proj.todos[index].date || "";
+    }
+  });
+  dateInput.addEventListener("change", () => {
+    project.forEach((proj) => {
+      if (proj.name == buttonClicked) {
+        proj.todos[index].date = dateInput.value;
+      }
+    });
+
+    todoDiv.forEach((item, number) => {
+      if (index == number) {
+        console.log(item.children[2]);
+        let spanDate = item.children[2];
+        spanDate.textContent = formatDate(dateInput.value);
+      }
+    });
+  });
+
+  todoDiv.forEach((item, number) => {
+    if (index == number) {
+      div.appendChild(label);
+      div.appendChild(title);
+      div.appendChild(dateLabel);
+      div.appendChild(dateInput);
+      div.appendChild(selectLabel);
+      div.appendChild(select);
+      item.insertAdjacentElement("afterend", div);
     }
   });
 }
