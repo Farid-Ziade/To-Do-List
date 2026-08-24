@@ -1,3 +1,4 @@
+import { el } from "date-fns/locale";
 import { project } from "../project/projectData.js";
 import { buttonClicked } from "../project/projectView";
 import { buttonNumber } from "../project/projectView";
@@ -113,6 +114,19 @@ function updating() {
           squareButton.className = "square";
           let circle = document.createElement("span");
           circle.className = "todocircle";
+          // console.log(proj.todos[i].priority);
+          switch (proj.todos[i].priority) {
+            case "low":
+              circle.style.backgroundColor = "green";
+              break;
+            case "medium":
+              circle.style.backgroundColor = "orange";
+              break;
+            case "high":
+              circle.style.backgroundColor = "red";
+              break;
+          }
+
           smallContainer.appendChild(squareButton);
           smallContainer.appendChild(circle);
           let spanDate = document.createElement("p");
@@ -149,6 +163,28 @@ function updating() {
         next.remove();
       } else {
         extraCard(index);
+        let selectElement = document.querySelectorAll(".selectElement");
+        let circle = document.querySelectorAll(".todocircle");
+        selectElement.forEach((selection) => {
+          selection.addEventListener("change", (event) => {
+            circle.forEach((el, here) => {
+              if (index == here) {
+                switch (event.target.value) {
+                  case "low":
+                    el.style.backgroundColor = "green";
+                    break;
+                  case "medium":
+                    el.style.backgroundColor = "orange";
+                    break;
+                  case "high":
+                    el.style.backgroundColor = "red";
+                    break;
+                }
+              }
+            });
+          });
+        });
+        ////////////////
       }
     });
   });
@@ -159,12 +195,12 @@ function extraCard(index) {
   let todoP = document.querySelectorAll(".todo-p");
   let div = document.createElement("div");
   div.className = "card-div";
-  let circle = document.querySelector(".todocircle");
   let title = document.createElement("input");
   title.type = "text";
   title.id = "titleid";
   title.name = "title";
   title.maxLength = "50";
+
   let label = document.createElement("label");
   label.htmlFor = "titleid";
   label.textContent = "Title";
@@ -176,6 +212,7 @@ function extraCard(index) {
   dateInput.type = "date";
   dateInput.id = "dateid";
   dateInput.name = "date";
+
   let dateLabel = document.createElement("label");
   dateLabel.htmlFor = "dateid";
   dateLabel.textContent = "Due date";
@@ -184,18 +221,33 @@ function extraCard(index) {
   let select = document.createElement("select");
   select.name = "select";
   select.id = "selectid";
-  let arrayOption = ["low", "medium", "high"];
-  arrayOption.forEach((el) => {
-    let option = document.createElement("option");
-    option.htmlFor = "selectid";
-    option.textContent = el.toUpperCase();
-    option.value = el.toLowerCase();
-    if (option.value == "low") {
-      circle.style.backgroundColor = "red";
-    }
-    ////bug here
+  select.className = "selectElement";
 
-    select.appendChild(option);
+  let arrayOption = ["low", "medium", "high", "zaber"];
+  project.forEach((proj, p) => {
+    if (proj.name === buttonClicked) {
+      todoP.forEach((el, o) => {
+        // console.log(el.textContent, "1");
+        console.log(proj.todos[index].priority);
+        if (proj.todos[index].title == el.textContent) {
+          console.log("hi");
+          arrayOption.forEach((el) => {
+            let option = document.createElement("option");
+            option.classList = "option";
+            option.textContent = el.toLowerCase();
+            select.value = proj.todos[index].priority;
+
+            // if (proj.todos[p].priority == option.textContent) {
+            //   console.log(option.textContent);
+            //   option.defaultSelected = proj.todos[p].priority;
+            //   console.log("hello");
+            //   console.log(option.defaultSelected);
+            // }
+            select.appendChild(option);
+          });
+        }
+      });
+    }
   });
 
   let selectLabel = document.createElement("label");
@@ -233,7 +285,6 @@ function extraCard(index) {
 
     todoDiv.forEach((item, number) => {
       if (index == number) {
-        console.log(item.children[2]);
         let spanDate = item.children[2];
         spanDate.textContent = formatDate(dateInput.value);
       }

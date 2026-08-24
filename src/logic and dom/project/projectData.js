@@ -8,13 +8,13 @@ let project = [
       {
         title: "Finish the odin project",
         description: "Become a software developer already",
-        priority: "High",
+        priority: "low",
         date: format(today, "yyyy-MM-dd"),
       },
       {
         title: "Go to basketball practice",
         description: "Every Tuesday and Thursday",
-        priority: "High",
+        priority: "high",
         date: format(today, "yyyy-MM-dd"),
       },
     ],
