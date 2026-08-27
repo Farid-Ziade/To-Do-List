@@ -11,3 +11,8 @@ document.body.appendChild(container);
 // needs `container` to already be attached to the document (it looks
 // elements up via document.querySelector).
 updating();
+const saved = localStorage.getItem("todo");
+if (saved) {
+  const project = JSON.parse(saved);
+  console.log(project);
+}

@@ -65,5 +65,6 @@ function projectBar() {
   });
   bar.appendChild(button);
   return bar;
+  localStorage.setItem("todo", project);
 }
 export { projectBar, buttonClicked, buttonNumber };

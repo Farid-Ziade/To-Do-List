@@ -114,7 +114,6 @@ function updating() {
           squareButton.className = "square";
           let circle = document.createElement("span");
           circle.className = "todocircle";
-          // console.log(proj.todos[i].priority);
           switch (proj.todos[i].priority) {
             case "low":
               circle.style.backgroundColor = "green";
@@ -182,12 +181,20 @@ function updating() {
                 }
               }
             });
+            project.forEach((proj) => {
+              if (proj.name == buttonClicked) {
+                proj.todos[index].priority = selection.value;
+              }
+            });
           });
         });
         ////////////////
       }
     });
   });
+  localStorage.setItem("todo", JSON.stringify(project));
+  console.log("updated");
+  console.log(project);
 }
 
 function extraCard(index) {
@@ -222,29 +229,20 @@ function extraCard(index) {
   select.name = "select";
   select.id = "selectid";
   select.className = "selectElement";
-
-  let arrayOption = ["low", "medium", "high", "zaber"];
+  let selectedOption;
+  let arrayOption = ["low", "medium", "high"];
   project.forEach((proj, p) => {
     if (proj.name === buttonClicked) {
       todoP.forEach((el, o) => {
-        // console.log(el.textContent, "1");
-        console.log(proj.todos[index].priority);
         if (proj.todos[index].title == el.textContent) {
-          console.log("hi");
           arrayOption.forEach((el) => {
             let option = document.createElement("option");
             option.classList = "option";
             option.textContent = el.toLowerCase();
-            select.value = proj.todos[index].priority;
-
-            // if (proj.todos[p].priority == option.textContent) {
-            //   console.log(option.textContent);
-            //   option.defaultSelected = proj.todos[p].priority;
-            //   console.log("hello");
-            //   console.log(option.defaultSelected);
-            // }
             select.appendChild(option);
           });
+          select.value = proj.todos[index].priority;
+          selectedOption = select.value;
         }
       });
     }
