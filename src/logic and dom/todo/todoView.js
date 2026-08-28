@@ -112,6 +112,7 @@ function updating() {
           let squareButton = document.createElement("input");
           squareButton.type = "checkbox";
           squareButton.className = "square";
+          squareButton.id = "square";
           let circle = document.createElement("span");
           circle.className = "todocircle";
           switch (proj.todos[i].priority) {
@@ -156,9 +157,29 @@ function updating() {
 
   let allTodo = document.querySelectorAll(".todo-div");
   allTodo.forEach((el, index) => {
-    el.addEventListener("click", () => {
+    el.addEventListener("click", (e) => {
       let next = el.nextElementSibling;
-      if (next && next.classList.contains("card-div")) {
+      if (e.target.id === "square") {
+        let allP = document.querySelectorAll(".todo-p");
+        project.forEach((proj) => {
+          if (proj.name == buttonClicked) {
+            allP.forEach((p, where) => {
+              let squareCheckbox = document.querySelectorAll(".square");
+              if (proj.todos[index].title == p.textContent) {
+                squareCheckbox.forEach((s, location) => {
+                  if (location == index) {
+                    if (s.checked) {
+                      p.style.textDecoration = "line-through";
+                    } else {
+                      p.style.textDecoration = "none";
+                    }
+                  }
+                });
+              }
+            });
+          }
+        });
+      } else if (next && next.classList.contains("card-div")) {
         next.remove();
       } else {
         extraCard(index);
@@ -192,6 +213,7 @@ function updating() {
       }
     });
   });
+
   localStorage.setItem("todo", JSON.stringify(project));
   console.log("updated");
   console.log(project);
@@ -229,7 +251,6 @@ function extraCard(index) {
   select.name = "select";
   select.id = "selectid";
   select.className = "selectElement";
-  let selectedOption;
   let arrayOption = ["low", "medium", "high"];
   project.forEach((proj, p) => {
     if (proj.name === buttonClicked) {
@@ -242,7 +263,6 @@ function extraCard(index) {
             select.appendChild(option);
           });
           select.value = proj.todos[index].priority;
-          selectedOption = select.value;
         }
       });
     }
