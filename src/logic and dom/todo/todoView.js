@@ -220,7 +220,6 @@ function updating() {
   });
 
   saveProject();
-  console.log(project);
 }
 
 function extraCard(index) {

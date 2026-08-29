@@ -93,6 +93,7 @@ body {
   justify-content: space-between;
   width: 100%;
   padding: 2%;
+  margin-bottom: 8px;
   border-radius: 5%;
   color: black;
   background-color: rgb(255, 255, 255);
@@ -111,7 +112,8 @@ body {
   background-color: white;
   color: black;
   padding: 5%;
-  margin-bottom: 5%;
+  margin-top: -8px;
+  margin-bottom: 8px;
   border-style: solid;
   border: 2px solid grey;
   border-color: grey;
