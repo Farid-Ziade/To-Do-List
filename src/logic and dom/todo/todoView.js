@@ -1,15 +1,13 @@
 import { el } from "date-fns/locale";
-import { project } from "../project/projectData.js";
+import { project, saveProject } from "../project/projectData.js";
 import { buttonClicked } from "../project/projectView";
 import { buttonNumber } from "../project/projectView";
 import { format, parseISO, isValid } from "date-fns";
-
 function formatDate(dateStr) {
   if (!dateStr) return "No date";
   const parsed = parseISO(dateStr);
   return isValid(parsed) ? format(parsed, "MMM d, yyyy") : "No date";
 }
-
 function card() {
   //title of the card
   let bar = document.createElement("div");
@@ -113,6 +111,7 @@ function updating() {
           squareButton.type = "checkbox";
           squareButton.className = "square";
           squareButton.id = "square";
+          squareButton.checked = !!proj.todos[i].completed;
           let circle = document.createElement("span");
           circle.className = "todocircle";
           switch (proj.todos[i].priority) {
@@ -132,6 +131,9 @@ function updating() {
           let spanDate = document.createElement("p");
           todo.className = "todo-div";
           todoP.textContent = proj.todos[i].title;
+          if (proj.todos[i].completed) {
+            todoP.style.textDecoration = "line-through";
+          }
           spanDate.textContent = formatDate(proj.todos[i].date);
 
           todo.appendChild(smallContainer);
@@ -173,12 +175,14 @@ function updating() {
                     } else {
                       p.style.textDecoration = "none";
                     }
+                    proj.todos[index].completed = s.checked;
                   }
                 });
               }
             });
           }
         });
+        saveProject();
       } else if (next && next.classList.contains("card-div")) {
         next.remove();
       } else {
@@ -207,15 +211,15 @@ function updating() {
                 proj.todos[index].priority = selection.value;
               }
             });
+            saveProject();
           });
         });
-        ////////////////
+        /////////////////////////////
       }
     });
   });
 
-  localStorage.setItem("todo", JSON.stringify(project));
-  console.log("updated");
+  saveProject();
   console.log(project);
 }
 
@@ -287,6 +291,7 @@ function extraCard(index) {
         proj.todos[index].title = currentTodo.textContent;
       }
     });
+    saveProject();
   });
 
   project.forEach((proj) => {
@@ -300,6 +305,7 @@ function extraCard(index) {
         proj.todos[index].date = dateInput.value;
       }
     });
+    saveProject();
 
     todoDiv.forEach((item, number) => {
       if (index == number) {

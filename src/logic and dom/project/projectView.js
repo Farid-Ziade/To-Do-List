@@ -1,4 +1,4 @@
-import { project } from "./projectData.js";
+import { project, saveProject } from "./projectData.js";
 import { updating } from "../todo/todoView.js";
 let buttonClicked = "";
 let buttonNumber = 0;
@@ -61,10 +61,10 @@ function projectBar() {
       todos: [],
     };
     project.push(newProj);
+    saveProject();
     bar.insertBefore(createProjectButton(newProj), button);
   });
   bar.appendChild(button);
   return bar;
-  localStorage.setItem("todo", project);
 }
 export { projectBar, buttonClicked, buttonNumber };

@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 let today = new Date();
-let project = [
+const defaultProject = [
   {
     name: "Default",
     todos: [
@@ -29,4 +29,15 @@ let project = [
   },
 ];
 
-export { project };
+
+let saved = localStorage.getItem("todo");
+let project = saved ? JSON.parse(saved) : defaultProject;
+
+function saveProject() {
+  localStorage.setItem("todo", JSON.stringify(project));
+}
+
+
+if (!saved) saveProject();
+
+export { project, saveProject };
